@@ -1,10 +1,10 @@
 package cr.ac.ucr.if400.tarea1.domain;
 
 public class Flotante {
-    short valor;
+    byte valor[];
 
     public Flotante() {
-        this.valor = 0;
+        this.valor = new byte[2];
     }
     
     
