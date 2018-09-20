@@ -6,7 +6,4 @@ public class Flotante {
     public Flotante() {
         this.valor = new byte[2];
     }
-    
-    
-    
 }
