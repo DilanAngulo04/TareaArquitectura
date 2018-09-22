@@ -81,71 +81,76 @@ public class Utilidades {
         return flipNumber(stringNumberConcat);
     }
 
-    public static String normalizeNumber(String number) {
-        String stringNumber = "" + number;
-        boolean first = false, second = false, third = false;
+    public static Double check(String binaryNumb) {
 
-        for (int i = stringNumber.length() - 1; i >= 0; i--) {
-            // evalua el caso 
-            if (stringNumber.charAt(i) == ',' && i >= 2) {
-                // caso en el que se debe mover la coma hacia la izquierda (sumar) 
+        String numbConcat = "", numbBinaryTemp = "" + binaryNumb;
+        int lenght = numbBinaryTemp.length();
+        boolean first = false, second = false;
+        String newNumber = "";
+        for (int i = numbBinaryTemp.length() - 1; i >= 0; i--) {
+            if (numbBinaryTemp.charAt(i) == '.' && i == 1) {
                 first = true;
-            } else if (stringNumber.charAt(i) == ',' && i == 1 && stringNumber.charAt(0) == '0') {
-                // caso en el que se debe mover la coma hacia la derecha (restar)
+                newNumber = firstMethod(binaryNumb);
+            } else if (numbBinaryTemp.charAt(i) == '.' && i != 1) {
                 second = true;
+                newNumber = secondMethod(binaryNumb);
             }
         }
-        if (!first && !second) {
-            // no habia coma en el numero, se debe mover hacia la derecha(restar)
-            third = true;
-        }
-        System.out.println(first + ", " + second + ", " + third);
-        return "";
+        return Double.parseDouble(newNumber);
     }
 
-    public static boolean check(String number) {
-        boolean bandera = false;
-        boolean first = false, second = false, third = false;
-        int counter = 0;
-        for (int i = number.length() - 1; i >= 0; i--) {
-            if ((bandera == true && i != 0 && first == false)
-                    || (bandera == true && number.charAt(i) == '0' && i == 0 && first == false)) {
-                second = true;
-            }
-            if (bandera == true && number.charAt(i) == '1' && i != 0) {
-                first = true;
-                second = false;
-            }
-
-            if (number.charAt(i) == ',') {
-                bandera = true;
-            }
-
-        }
-        
-        if (bandera == false) {
-            third = true;
-        } else {
-            // el numero tiene la coma con un numero, es decir, no se modifica
-        }
-
-        System.out.println(first + ", " + second + ", " + third);
-        return false;
-    }
-
-    private static String first(String number) {
-        String stringTemp = "";
-        int counter = 0;
-        for (int i = number.length(); i > 0; i++) {
-            if (number.charAt(i) == ',') {
-                counter++;
-            }
-            if (i == 1 && i == 0) {
-                stringTemp = "," + number.charAt(i);
+    public static String secondMethod(String binaryNumb) {
+        String binaryString = "";
+        boolean flag = false;
+        int counter = binaryNumb.length() - 1;
+        int dec = 0;
+        while (counter >= 0) {
+            if (binaryNumb.charAt(counter) == '.') {
+                flag = true;
+                counter--;
             } else {
-                stringTemp = "" + number.charAt(i);
+
+                if (flag == true) {
+                    dec++;
+                }
+                if (counter == 0) {
+                    binaryString += "." + binaryNumb.charAt(counter);
+                    counter--;
+                } else {
+                    binaryString += binaryNumb.charAt(counter);
+                    counter--;
+                }
+            }
+
+        }
+
+        binaryString = flipNumber(binaryNumb);
+        return binaryString;
+
+    }
+
+    public static String firstMethod(String binaryNum) {
+        String numConcat = "";
+        boolean flag = false;
+        int counter = 0;
+        int dec = 0;
+        for (int i = binaryNum.length() - 1; i >= 0; i--) {
+            if (binaryNum.charAt(i) == '.') {
+                flag = true;
+            } else {
+                if (i == 2) {
+                    numConcat += "." + binaryNum.charAt(i);
+                } else {
+                    numConcat += binaryNum.charAt(i);
+
+                }
+                if (flag == true) {
+                    dec++;
+                }
             }
         }
-        return "";
+
+        numConcat = flipNumber(numConcat);
+        return numConcat;
     }
 }

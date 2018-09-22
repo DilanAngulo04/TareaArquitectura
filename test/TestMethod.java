@@ -42,9 +42,9 @@ public class TestMethod {
     //
     @Test
     public void hello() {
-        // System.out.println(Utilidades.twoComplement(110110));
+        System.out.println(Utilidades.twoComplement(110110));
 
-        System.out.println(Utilidades.check("100,001"));
+        //System.out.println(Utilidades.check("100,001"));
 
     }
 }
