@@ -1,15 +1,10 @@
 package cr.ac.ucr.if400.tarea1.Utilidades;
 
-import static java.lang.System.exit;
-
 public class Utilidades {
-    
-    
-    
+
     public static double binaryDecimal(String binary) {
-        double aux, digit, decimal;
+        double digit, decimal;
         int exponent;
-        boolean isBinario;
 
         exponent = 0;
         decimal = 0; //será el equivalente en base decimal
@@ -23,21 +18,22 @@ public class Utilidades {
             exponent++;
             //se quita la última cifra para repetir el proceso
             numero = numero / 10;
-        }
+        }//fin while
 
         return decimal + expNegative("" + binary);
-    }
+    }//fin metodo
 
+    //Metodo para convertir un numero decimal a uno binario
     public static String decimalBinary(String number) {
 
+        //Se toma la parte decimal de numero
         String decimalNumber = "" + decimalBinaryX(Double.parseDouble(decimalFormat(number)));
-        System.out.println(decimalNumber);
 
         String binary = "";//Concatena el numero binario
+        //Se toma la parte entera del numero 
         long aux = (long) Double.parseDouble(number);
         System.out.println(aux);
         while (aux > 0) {
-            System.out.println(binary);
             binary = (aux % 2) + binary;
             aux /= 2;
         }
@@ -50,126 +46,92 @@ public class Utilidades {
         double binaryFinal2 = Double.parseDouble(decimalNumber);
         System.out.println(binaryFinal2);
 
+        //Se concatena el resultado de ambas partes
         return "Result " + binaryFinal + "." + (long) binaryFinal2;
 
-    }
+    }//fin metodo
 
+    //Metodo para convertir un numero binario en uno con base hexadeciaml
+    public static String binarioToHexa(String binario) {
+        Integer number = 0;//numero por defecto
+        try {
+            number = Integer.valueOf(binario, 2);//Se hace uso de las herramientas de java
+        } catch (NumberFormatException e) {
+        }
+        return Integer.toHexString(number).toUpperCase(); //Se retornan todas las letras en mayusculas
+    }//fin metodo
+
+    //Matodo complementario para la convercion de base decimal a base binaria
     public static double decimalBinaryX(double decimales) {
 
-        System.out.println(decimales);
-
         String binary3 = "";
-        while (decimales != 0.0) {
+        while (decimales != 0.0) {//cuando el numero llegue a 0.0 se romple el ciclo
             System.out.println(decimales);
             binary3 += "" + (short) (decimales * 2);
             decimales = Double.parseDouble(decimalFormat(decimales * 2 + ""));
-        }
+        }//fin while
 
         return Double.parseDouble(binary3);
-    }
+    }//fin metodo
 
+    //metodo que retorna la parte decimal de un numero
     public static String decimalFormat(String numero) {
         String decimales = "0";
         String binary2 = numero + "";
 
         for (int i = 0; i <= numero.length() - 1; i++) {
             if (numero.charAt(i) == '.') {
-                System.out.println("si");
-                System.out.println("i " + i);
                 for (int f = i; f <= binary2.length() - 1; f++) {
                     decimales += "" + binary2.charAt(f);
-                }
-            }
-
-        }
-
+                }//fin for anidado
+            }//fin if
+        }//fin for
         return decimales;
-
-    }
-
-//    public static boolean isBinary(double binaryNum) {
-//        boolean isBinaryNum = true;
-//        String number = binaryNum + "";
-//        for (int i = 0; i <= number.length() - 1; i++) {
-//            if (number.charAt(i) != 1 && number.charAt(i) != 0 && number.charAt(i) != '.') {
-//                System.out.println(number.charAt(i));
-//                isBinaryNum = false;
-//            }
-//        }
-//
-//        return isBinaryNum;
-//
-//    }
-    public static short getIntex(double binaryNum) {
-        short index = 0;
-        String number = binaryNum + "";
-        for (int i = 0; i <= number.length() - 1; i++) {
-            if (number.charAt(i) == '.') {
-                index = (short) i;
-                return index;
-            }
-        }
-        return index;
-    }
+    }//fin metodo
 
     public static long getDecimal(String num) {
-
-        System.out.println(num);
         String decimales = "";
-        for (int i = 0; i <= num.length() - 1; i++) {
+        for (int i = 0; i <= num.length() - 1; i++) {//se recorre el numero para determinar la posicion del punto decimal
             if (num.charAt(i) == '.') {
-                System.out.println("i" + i);
-                System.out.println("si");
-                for (int f = i + 1; f <= num.length() - 1; f++) {
+                for (int f = i + 1; f <= num.length() - 1; f++) {//apartir del punto de toma el numero decimal
                     decimales += "" + num.charAt(f);
-                    System.out.println("decimales" + decimales);
-                }
-            }
-        }
-
+                }//fin for
+            }//fin de la condicion
+        }//fin for
         return Long.parseLong(decimales);
-    }
+    }//fin metodo
 
+    //metodo que resuele la parte decimal en base binaria 
     public static double expNegative(String binaryNumber) {
-
         double numberFinal = 0;
         int j = 0;
         for (int f = 0; f <= binaryNumber.length() - 1; f++) {
             if (binaryNumber.charAt(f) == '.') {
-                System.out.println("si");
-                System.out.println("f" + f);
                 for (int i = f + 1; i < binaryNumber.length(); i++) {
-                    System.out.println("i" + i);
-                    System.out.println("char " + binaryNumber.charAt(i));
                     numberFinal += Integer.parseInt("" + binaryNumber.charAt(i)) * Math.pow(2, --j);
-                    System.out.println("j" + j);
-                }
-            }
-
-        }
-
+                }//fin for
+            }//fin if
+        }//fin for
         return numberFinal;
-    }
-
+    }//fin del metodo
 
     private static String flipNumber(String number) {
         String flipedNumber = "";
         for (int i = number.length() - 1; i >= 0; i--) {
             flipedNumber += "" + number.charAt(i);
-        }
+        }//fin for
         return flipedNumber;
-    }
+    }//fin del metoso
 
     public static String twoComplement(long number) {
         String stringNumber = "" + number, stringNumberConcat = "";
         boolean firstOne = false, addOne = false;
-
         for (int i = stringNumber.length() - 1; i >= 0; i--) {
             char numberC = stringNumber.charAt(i);
             if (numberC == '1' && firstOne == false) {
                 firstOne = true;
                 stringNumberConcat += '1';
-            }
+            }//fin if
             if (firstOne == true) {
                 if (addOne == false) {
                     addOne = true;
@@ -178,19 +140,16 @@ public class Utilidades {
                         stringNumberConcat += '0';
                     } else {
                         stringNumberConcat += '1';
-                    }
-                }
+                    }//fin else
+                }//fin else
             } else {
                 stringNumberConcat += numberC;
-
-            }
-        }
-
+            }//fin else
+        }//fin for
         return flipNumber(stringNumberConcat);
-    }
+    }//fin metodo
 
     public static Double check(String binaryNumb) {
-
         String numbConcat = "", numbBinaryTemp = "" + binaryNumb;
         int lenght = numbBinaryTemp.length();
         boolean first = false, second = false;
@@ -202,10 +161,10 @@ public class Utilidades {
             } else if (numbBinaryTemp.charAt(i) == '.' && i != 1) {
                 second = true;
                 newNumber = secondMethod(binaryNumb);
-            }
-        }
+            }//fin if/else
+        }//fin for
         return Double.parseDouble(newNumber);
-    }
+    }//fin metodo
 
     public static String secondMethod(String binaryNumb) {
         String binaryString = "";
@@ -217,25 +176,21 @@ public class Utilidades {
                 flag = true;
                 counter--;
             } else {
-
                 if (flag == true) {
                     dec++;
-                }
+                }//fin if
                 if (counter == 0) {
                     binaryString += "." + binaryNumb.charAt(counter);
                     counter--;
                 } else {
                     binaryString += binaryNumb.charAt(counter);
                     counter--;
-                }
-            }
-
-        }
-
+                }//fin else
+            }//fin else
+        }//fin while
         binaryString = flipNumber(binaryNumb);
         return binaryString;
-
-    }
+    }//fin metodo
 
     public static String firstMethod(String binaryNum) {
         String numConcat = "";
@@ -250,15 +205,14 @@ public class Utilidades {
                     numConcat += "." + binaryNum.charAt(i);
                 } else {
                     numConcat += binaryNum.charAt(i);
-
-                }
+                }//fin else
                 if (flag == true) {
                     dec++;
-                }
-            }
-        }
+                }//fin if
+            }//fin else
+        }//fin for
 
         numConcat = flipNumber(numConcat);
         return numConcat;
-    }
-}
+    }//fin metodo
+}//fin clse Utilidades
