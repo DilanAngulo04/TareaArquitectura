@@ -290,6 +290,13 @@ public class Utilidades {
         System.out.println(binary + "  " + flipNumber(decimalNumber));
         return flipNumber(decimalNumber);
     }
+    
+     public static String fifteenExcess(int exp) {
+        int suma = 15 + exp;
+        System.out.println(" suma " + suma);
+
+        return Utilidades.decimalToBinario(suma);
+    }
 
     public static String addNumber(String num) {
         String concatNum = "";
@@ -302,28 +309,27 @@ public class Utilidades {
         return concatNum + num;
     }
 
-    public static String madeFlotant(Object decimalNumber) {
+     public static String madeFlotant(Object decimalNumber) {
         String concatBinary = "";
-        Object binaryNumber ;
-
-        if (decimalNumber instanceof Integer) {
-         binaryNumber = decimalToBinario((int) decimalNumber);
-
-        } else {   
-            binaryNumber = "" + Utilidades.decimalBinary((long) decimalNumber);
-
-        }
-
+        Object binaryNumber;
         String normalizeNumber = "";
         String binaryExp = "";
 
+        //pregunto si el numero entrante es un entero o tiene decimales, dependiendo de lo anterior lo convierto a decimal utilizando un metodo u otro
+        if (decimalNumber instanceof Integer) {
+            binaryNumber = decimalToBinario((int) decimalNumber);
+
+        } else {
+            binaryNumber = "" + Utilidades.decimalBinary((long) decimalNumber);
+        }
+
+        // si es negativo le añado un uno como bit significativo, de ser negativo le coloco un 0
         if (decimalNumber instanceof Integer) {
             if ((int) decimalNumber < 0) {
                 concatBinary += '1';
             } else {
                 concatBinary += '0';
             }
-
         } else {
             if ((double) decimalNumber < 0) {
                 concatBinary += '1';
@@ -333,10 +339,22 @@ public class Utilidades {
 
         }
 
+        //En esta parte normalizo el numero entrante, lo que se es tomar el numero binario entrante y
+        // obtenerle la mantisa y el exponente que depende de cuantas veces se mueva la coma en el numero
         Object obj[] = Utilidades.check((String) binaryNumber);
-        binaryExp = "" + Utilidades.decimalBinary("" + ((int) obj[0]));
         normalizeNumber = "" + obj[1];
 
+        if ((int) obj[0] < 0) {
+            //negativo, se le saca el complemento a dos
+            int numPositivo = ((int) obj[0] + 2 * ((int) obj[0])); 
+            System.out.println(" paso a positivo " + numPositivo);
+           String binary = Utilidades.twoComplement(""+numPositivo);
+        } else {
+           String binary = Utilidades.fifteenExcess((int) obj[0]);
+        }
+
+        // System.out.println(" objeto [0]" + obj[0].toString());
+        //Le sacamos el exceso a 15, si es positivo, o complemento a dos, si es negativo
         System.out.println(" decimal " + obj[0] + "y " + binaryExp);
         String addNumber = addNumber(binaryExp);
 
