@@ -10,8 +10,8 @@ package cr.ac.ucr.if400.tarea1.Utilidades;
  * @author Melissa Ramirez R
  */
 public class Utilidades {
-    
-     public static double binaryDecimal(String binary) {
+
+    public static double binaryDecimal(String binary) {
         double digit, decimal;
         int exponent;
 
@@ -31,7 +31,7 @@ public class Utilidades {
 
         return decimal + expNegative("" + binary);
     }//fin metodo
-     
+
     public static long getDecimal(String num) {
         String decimales = "";
         for (int i = 0; i <= num.length() - 1; i++) {//se recorre el numero para determinar la posicion del punto decimal
@@ -57,7 +57,7 @@ public class Utilidades {
         }//fin for
         return numberFinal;
     }//fin del metodo
-    
+
     //Metodo para convertir un numero binario en uno con base hexadeciaml
     public static String binarioToHexa(String binario) {
         Integer number = 0;//numero por defecto
@@ -67,7 +67,7 @@ public class Utilidades {
         }
         return Integer.toHexString(number).toUpperCase(); //Se retornan todas las letras en mayusculas
     }//fin metodo
-    
+
     //metodo que retorna la parte decimal de un numero
     public static String decimalFormat(String numero) {
         String decimales = "0";
@@ -82,7 +82,7 @@ public class Utilidades {
         }//fin for
         return decimales;
     }//fin metodo
-    
+
     public static String decimalToBinario(int numero) {
         System.out.print("Convirtiendo decimal  (" + numero + ") a binario >> ");
         return Integer.toBinaryString(numero);
@@ -248,8 +248,7 @@ public class Utilidades {
         return binaryFinal;
     }
 
-
-   //Metodo para convertir un numero decimal a uno binario
+    //Metodo para convertir un numero decimal a uno binario
     public static String decimalBinary(String number) {
 
         //Se toma la parte decimal de numero
@@ -273,7 +272,7 @@ public class Utilidades {
         System.out.println(binaryFinal2);
 
         //Se concatena el resultado de ambas partes
-        return  binaryFinal + "." + (long) binaryFinal2;
+        return binaryFinal + "." + (long) binaryFinal2;
 
     }//fin metodo
 
@@ -290,8 +289,8 @@ public class Utilidades {
         System.out.println(binary + "  " + flipNumber(decimalNumber));
         return flipNumber(decimalNumber);
     }
-    
-     public static String fifteenExcess(int exp) {
+
+    public static String fifteenExcess(int exp) {
         int suma = 15 + exp;
         System.out.println(" suma " + suma);
 
@@ -309,7 +308,7 @@ public class Utilidades {
         return concatNum + num;
     }
 
-     public static String madeFlotant(Object decimalNumber) {
+    public static String madeFlotant(Object decimalNumber) {
         String concatBinary = "";
         Object binaryNumber;
         String normalizeNumber = "";
@@ -346,11 +345,11 @@ public class Utilidades {
 
         if ((int) obj[0] < 0) {
             //negativo, se le saca el complemento a dos
-            int numPositivo = ((int) obj[0] + 2 * ((int) obj[0])); 
+            int numPositivo = ((int) obj[0] + 2 * ((int) obj[0]));
             System.out.println(" paso a positivo " + numPositivo);
-           String binary = Utilidades.twoComplement(""+numPositivo);
+            String binary = Utilidades.twoComplement("" + numPositivo);
         } else {
-           String binary = Utilidades.fifteenExcess((int) obj[0]);
+            String binary = Utilidades.fifteenExcess((int) obj[0]);
         }
 
         // System.out.println(" objeto [0]" + obj[0].toString());
@@ -369,6 +368,109 @@ public class Utilidades {
         concatBinary += binaryExp;
 
         return concatBinary;
+    }
+
+    public static String hexaToBinary(String hexa) {
+        Integer number = 0;//numero por defecto
+        try {
+            number = Integer.valueOf(hexa, 16);//Se hace uso de las herramientas de java
+        } catch (NumberFormatException e) {
+        }
+        return Integer.toBinaryString(number).toUpperCase(); //Se retornan todas las letras en mayusculas
+    }//fin metodo
+
+    public static String impresion(String hexa, int numberDecimal) {
+
+        String binary = hexaToBinary(hexa);//Paso el numero hexadecimnal a binario
+        String concatDecimalNumber = "1";
+        System.out.println(binary);
+        
+        if(binary.length() < 16){
+            while(binary.length() < 16){
+                binary = '0' + binary; 
+            }
+        }
+
+        String aux1 = binary.substring(1, 6);
+        System.out.println(aux1);
+
+        int preExceso = binarioToDecimal(aux1);
+        System.out.println(preExceso);
+
+        int exceso = preExceso - 15;
+        System.out.println(exceso);
+
+        System.out.println("binary " + binary);
+        int n = 0;
+        boolean exc = false;
+
+        for (int i = 7; i < binary.length(); i++) {
+
+            if (n == exceso) {
+                System.out.println("n " + n);
+                concatDecimalNumber += ".";
+                concatDecimalNumber += "" + binary.charAt(i);
+                exc = true;
+                n++;
+                
+            }
+            concatDecimalNumber += "" + binary.charAt(i);
+            n++;
+        }
+        
+        System.out.println(concatDecimalNumber);
+
+//        if (!exc) {
+//            if (binary.charAt(0) == '1') {
+//                if (exceso > concatDecimalNumber.length() - 2) {
+//                    System.out.println("tes1");
+//                    while (concatDecimalNumber.length() - 2 < exceso) {
+//                        concatDecimalNumber += '0';
+//                        System.out.println(concatDecimalNumber);
+//                    }
+//                }
+//                concatDecimalNumber = "" + negativeToPositive(concatDecimalNumber);
+//            } else {
+//                if (exceso > concatDecimalNumber.length() - 1) {
+//                    System.out.println("tes2");
+//                    while (concatDecimalNumber.length() - 1 < exceso) {
+//                        concatDecimalNumber += '0';
+//                    }
+//                }
+//            }
+//        }
+
+        boolean convertDecimal = false;
+        for (int i = 0; i < concatDecimalNumber.length(); i++) {
+            if (concatDecimalNumber.charAt(i) == '.') {
+                concatDecimalNumber = "" + binaryDecimal(concatDecimalNumber);
+                convertDecimal = true;
+            }
+        }
+        
+        if(!convertDecimal){
+            concatDecimalNumber = "" + binarioToDecimal(concatDecimalNumber);
+        }
+
+        if (binary.charAt(0) == '1') {
+            System.out.println("yes");
+            concatDecimalNumber = "-" + concatDecimalNumber;
+        }
+
+        return concatDecimalNumber;
+
+    }
+
+    // metodo que pasa de un numero negativo a positivo
+    public static String negativeToPositive(String num) {
+        String numString = "" + num;
+        String newNum = "";
+
+//        System.out.println("el numero es " + num + "Tiene "+num.length());
+        for (int i = 1; i < numString.length(); i++) {
+            newNum += numString.charAt(i);
+        }
+        return newNum;
     }
 
 }
